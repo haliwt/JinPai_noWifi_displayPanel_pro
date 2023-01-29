@@ -83,7 +83,7 @@ typedef struct __RUN{
    uint8_t  gTimer_disp_temp;
    uint8_t  gTimer_set_temperature ;
    uint8_t  gTimer_1_hour_counter;
-   uint8_t  beijing_time_seconds;
+
    
    
    uint8_t gReal_humtemp[2];

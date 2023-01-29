@@ -165,10 +165,8 @@ void SplitDispose_Key(uint8_t value)
     switch(value){
         
        case 0x80: //Power On
-        //   powerKey = powerKey ^ 0x01;
-        //  if(powerKey ==1){
-            
-			  if(run_t.gPower_On == 0 || run_t.gPower_On == 0xff){
+    
+          if(run_t.gPower_On == 0 || run_t.gPower_On == 0xff){
 			  	  run_t.gTimes_hours_temp=12;
 	              run_t.gPower_On=1;
 	          
@@ -178,20 +176,19 @@ void SplitDispose_Key(uint8_t value)
 				  run_t.gAi =0; //WT.EDIT 2022.09.01
 				  run_t.gPlasma=0;
 				  run_t.gDry =0;
-				
-	              // run_t.wifi_turn_off++;
-			  }
-			  else{
+				  run_t.gFan = 0;
+	              
+		  }
+		  else{
                   
-				  	run_t.power_key =2;
-					 run_t.gAi =1;//WT.EDIT 2022.11.21
-				    run_t.gFan_RunContinue=1;
-		            run_t.gPower_On=0;
-					run_t.fan_off_60s =0;
-		           //  run_t.wifi_turn_on++;
-		             Smg_AllOff();
-              }
-        //  }
+		  	run_t.power_key =2;
+			run_t.gAi =1;//WT.EDIT 2022.11.21
+		    run_t.gFan_RunContinue=1;
+            run_t.gPower_On=0;
+			run_t.fan_off_60s =0;
+            Smg_AllOff();
+            }
+       
          
        
         break;

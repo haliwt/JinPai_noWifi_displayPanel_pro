@@ -98,9 +98,7 @@ void Scan_KeyMode(void)
          run_t.keyValue= 0x08;
 		dispose_key(run_t.keyValue);//Display_Smg_RunMode(run_t.keyValue );
 	     
-	    
-		
-         if(run_t.gAi == 1)
+	    if(run_t.gAi == 1)
 	          sendAi_usart_fun(0x18);//SendData_AI(0X18); //AI turn off 
 		 else 
 		 	  sendAi_usart_fun(0x08);//SendData_AI(0X08); //AI turn on
@@ -370,22 +368,7 @@ static void Setup_Timer_Times(void)
 
 	  }
     }
-    else{ //short times for key
-
-
-            if(run_t.beijing_time_seconds > 59){
-				run_t.beijing_time_seconds=0;
-				run_t.gTimes_minutes_temp++;
-                if(run_t.gTimes_minutes_temp > 59){ //1 hour
-                    run_t.gTimes_minutes_temp=0;
-                    run_t.gTimes_hours_temp++;
-                   if(run_t.gTimes_hours_temp > 24){
-				    run_t.gTimes_hours_temp =0;
-				    }
-			   }
-              // Display_GMT();
-		      }
-         }
+    
 
 }
    
@@ -403,7 +386,17 @@ void Single_RunCmd(void)
         Decode_Function();
 
      }
-    
+   
+    if(run_t.gFan_RunContinue==1){
+		if(run_t.fan_off_60s > 59){
+           
+           LED_FAN_OFF();
+		   run_t.gFan_RunContinue=0;
+
+		}	
+
+
+	}
 
     if(run_t.gPower_On ==0 || run_t.gPower_On == 0xff){
 	 	

@@ -14,10 +14,10 @@
 #define LED_WIFI_GPIO_Port               GPIOC
 
 
-
-
 #define  SMG_POWER_PIN			         GPIO_PIN_1
 #define  SMG_POWER_PORT       		     GPIOA
+
+
 
 
 
@@ -37,7 +37,9 @@
 #define LED_STER_OFF()             HAL_GPIO_WritePin(LED_GPIOA, LED_STER_PIN,GPIO_PIN_RESET)
 
 #define LED_FAN_ON()  				HAL_GPIO_WritePin(LED_FAN_GPIO_Port, LED_FAN_Pin,GPIO_PIN_SET)
-#define LED_FAN_OFF()				HAL_GPIO_WritePin(LED_FAN_GPIO_Port, LED_FAN_Pin,GPIO_PIN_SET)
+#define LED_FAN_OFF()				HAL_GPIO_WritePin(LED_FAN_GPIO_Port, LED_FAN_Pin,GPIO_PIN_RESET)
+
+
 //control SMG supply power 
 #define SMG_POWER_ON()				HAL_GPIO_WritePin(SMG_POWER_PORT , SMG_POWER_PIN,GPIO_PIN_SET)
 #define SMG_POWER_OFF()             HAL_GPIO_WritePin(SMG_POWER_PORT , SMG_POWER_PIN,GPIO_PIN_RESET)

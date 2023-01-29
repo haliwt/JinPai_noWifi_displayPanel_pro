@@ -217,14 +217,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 
 		 break;
            
-        case 5: 
-			if(run_t.single_data == WIFI_BEIJING_TIME){
-				 run_t.beijing_time_seconds = inputBuf[0];
-				 run_t.decodeFlag=1;
-			    state=0;
-		 }
-            
-        break;
+       
 
 		
 		
