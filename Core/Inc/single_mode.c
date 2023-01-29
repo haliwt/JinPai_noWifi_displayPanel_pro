@@ -62,7 +62,6 @@ void Scan_KeyMode(void)
 			single_add_fun();//DisplayTiming_KEY_Add_Subtract_Fun();
 			single_buzzer_fun();//SendData_Buzzer();
 		
-		
 		  
      }
      else if(DEC_KEY_VALUE()==KEY_DOWN){ //"-" KEY
@@ -97,11 +96,14 @@ void Scan_KeyMode(void)
 		 while(FAN_KEY_VALUE()==KEY_DOWN);
          run_t.keyValue= 0x08;
 		dispose_key(run_t.keyValue);//Display_Smg_RunMode(run_t.keyValue );
-	     
-	    if(run_t.gAi == 1)
-	          sendAi_usart_fun(0x18);//SendData_AI(0X18); //AI turn off 
-		 else 
-		 	  sendAi_usart_fun(0x08);//SendData_AI(0X08); //AI turn on
+	    if(run_t.gPower_On==1){
+
+		    if(run_t.gFan ==0)
+	     	  sendAi_usart_fun(0x01);
+	     	else
+			  sendAi_usart_fun(0x81);
+			  
+	    }
      }
 	 else if(STER_KEY_VALUE()==KEY_DOWN){ // KILL KEY
 	 	
@@ -144,7 +146,10 @@ void Scan_KeyMode(void)
 	    
 	  if(run_t.gPower_On == 1){
 		  
-		    sendAi_usart_fun(0x01);//SendData_AI(0X01); //turn on
+		if(run_t.gAi == 1)
+	          sendAi_usart_fun(0x18);//SendData_AI(0X18); //AI turn off 
+		 else 
+		 	  sendAi_usart_fun(0x08);//SendData_AI(0X08); //AI turn on
 	    
 	  }
 	 }
@@ -232,11 +237,7 @@ void RunReference_Fun(void)
 
 	}
 	 
-    
-	 
-     
- 
-	 /*Temperature -> auto shut off machine be checked interval 60s */
+   /*Temperature -> auto shut off machine be checked interval 60s */
 	 if(run_t.gTemperature_timer_flag ==1 && run_t.gTimer_key_60s >59 ){
             run_t.gTimer_key_60s=0;
 		 
@@ -268,20 +269,7 @@ void RunReference_Fun(void)
 	  }
 		
 
-      /*-------------poer off turn off fan continuce run 60s----------------*/
-	  //fan continuce run 60s ,the all function turn off 
-       if(run_t.gFan_RunContinue==1){
-            
-          if(run_t.fan_off_60s > 60){ 
-		       run_t.gFan_RunContinue++;
-			   //LED_AI_OFF();
-           }
-		   else{
-
-			// LED_AI_ON();
-							
-           }
-       }
+     
 
 	
   }
