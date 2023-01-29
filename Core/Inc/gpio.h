@@ -75,6 +75,7 @@ void MX_GPIO_Init(void);
 #define AI_KEY_GPIO_Port                        GPIOB
 
 
+
 #define INT_KEY_VALUE()              HAL_GPIO_ReadPin(GPIOA,PA0_INT_Pin)//
 #define POWER_KEY_VALUE()            HAL_GPIO_ReadPin(POWER_KEY_GPIO_Port ,POWER_KEY_Pin)
 #define MODE_KEY_VALUE()             HAL_GPIO_ReadPin(GPIOA,MODE_KEY_Pin)

@@ -75,8 +75,11 @@ void Error_Handler(void);
 #define KEY_D4_GPIO_Port GPIOB
 #define LED_POWER_Pin GPIO_PIN_12
 #define LED_POWER_GPIO_Port GPIOB
-#define LED_TIME_Pin GPIO_PIN_14
-#define LED_TIME_GPIO_Port GPIOB
+
+#define LED_TIME_Pin 					GPIO_PIN_14
+#define LED_TIME_GPIO_Port 				GPIOB
+
+
 #define LED_FAN_Pin GPIO_PIN_15
 #define LED_FAN_GPIO_Port GPIOB
 #define LED_KILL_Pin GPIO_PIN_8
