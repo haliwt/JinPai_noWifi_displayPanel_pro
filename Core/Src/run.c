@@ -58,7 +58,7 @@ void Power_Off(void)
 				  run_t.gTimes_hours_temp=12;
 				  run_t.gTimes_minutes_temp=0;
 			
-				  run_t.gKeyTimer_mode =0;
+				  run_t.gMode_flag =0;
 				  run_t.gTimer_key_5s=0;
 				  run_t.gTimer_key_4s=0;
 	              run_t.gTimer_key_60s=0;
@@ -92,7 +92,7 @@ void DisplayTimer_Timing(void)
 {
       static uint8_t m,n,p,q;
     
-    if(run_t.gTimer_Cmd==1 &&  run_t.temperature_flag !=1){
+    if(run_t.gTimer_Cmd==1 &&  run_t.gMode_flag !=1){
 
                 
 				m = run_t. dispTime_hours /10 ;
@@ -115,7 +115,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   static uint8_t tm0,tm2;
     
     tm0++;
-	//tm1++;
     if(tm0>99){ //100 *10ms = 1000ms = 1s
 		tm0=0;
 		tm2++;
@@ -123,11 +122,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		run_t.gTimer_key_4s ++;
 		run_t.gTimer_key_60s++;
 		run_t.fan_off_60s++;
-		 run_t.gTimer_led_500ms =1;
-		 run_t.gTimer_key_5s++;
-	     run_t.gTimer_disp_temp++;
-		 run_t.gTimer_set_temperature++;
-		 run_t.gTimes_time_seconds ++;
+		run_t.gTimer_led_500ms =1;
+		run_t.gTimer_key_5s++;
+	    run_t.gTimes_time_seconds ++;
 		 
 	    if(tm2>59){//60s ->1 minute 
 	      tm2=0;

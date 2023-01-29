@@ -175,9 +175,9 @@ void RunReference_Fun(void)
     if(run_t.gPower_On ==1){
 	    panel_led_fun();
 
-	 if(run_t.gTimer_key_5s >4 && (run_t.gKeyTimer_mode ==1)){	//timer timing set up 
+	 if(run_t.gTimer_key_5s >4 && run_t.gMode_flag ==1){	//timer timing set up 
         run_t.gTimer_key_5s =0;
-		run_t.gKeyTimer_mode =0;
+	   // run_t.gMode_flag =0;
 	    run_t.Timer_mode_flag=0;
 		
 		
@@ -204,14 +204,14 @@ void RunReference_Fun(void)
 		
 	}
     //set up temperature be done 
-    if(run_t.gTimer_set_temperature > 4 && run_t.temperature_set_flag == 1){
-          
-	       run_t.temperature_set_flag =0; 
-		   run_t.gTemperature_timer_flag =1;
-		   run_t.Timer_mode_flag =0;
-		 
-	
-    }
+//    if(run_t.gTimer_set_temperature > 4 && run_t.temperature_set_flag == 1){
+//          
+//	       run_t.temperature_set_flag =0; 
+//		   run_t.gTemperature_timer_flag =1;
+//		   run_t.Timer_mode_flag =0;
+//		 
+//	
+//    }
 
 	
     /******************timer timing *****************************/
@@ -246,10 +246,9 @@ void RunReference_Fun(void)
 		  else if((run_t.gTemperature -3) >= run_t.gReal_humtemp[1] ||  run_t.gReal_humtemp[1] <=37){
 	  
 			
-		      panel_led_fun();//Display_Function_OnOff();
+		     panel_led_fun();//Display_Function_OnOff();
 		     run_t.gDry = 0;
-	  
-			  sendAi_usart_fun(0x02); //dry turn on//turn on PTC "heat"
+	         sendAi_usart_fun(0x02); //dry turn on//turn on PTC "heat"
 				 
 		  }
 	  

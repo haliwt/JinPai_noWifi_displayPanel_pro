@@ -159,7 +159,7 @@ uint8_t KEY_Scan(void)
 *********************************************************************************************************/
 void SplitDispose_Key(uint8_t value)
 {
-    static uint8_t plasma,dry,ai;
+    static uint8_t plasma,dry,ai,mode_flag;
 	
     
     switch(value){
@@ -191,48 +191,44 @@ void SplitDispose_Key(uint8_t value)
             }
        
          
-       
+        
         break;
        
        case 0x40: //Mode On -> set time and timer 
            if(run_t.gPower_On ==1){
 				
-			run_t.gKeyTimer_mode = run_t.gKeyTimer_mode ^ 0x01; //the same is "0",and differenct is "1"
+			mode_flag = mode_flag ^ 0x01; //the same is "0",and differenct is "1"
 
-			if(run_t.gKeyTimer_mode == 1){
+			if(mode_flag == 1){
                 
-				run_t.gTimer_key_5s =0;
-				run_t.temperature_flag =0;
+				run_t.gMode_flag =1;
 		    }
             else{
-               run_t.gKeyTimer_mode=0;
 			 
-			   run_t.temperature_flag =1;
+			   run_t.gMode_flag =0;
 			 
             }
            
 	     }
-		   
+		 value = 0xff;
+		 run_t.keyValue =0xff;
         break;
         
         case 0x20: //CIN3 -> DEC KEY
              if(run_t.gPower_On ==1){
 			
-			 	 if(run_t.gKeyTimer_mode==1){//times, is timer is 
+			 	if(run_t.gMode_flag==1){//times, is timer is 
                     
-			 	     run_t.dispTime_hours--;
-				    if(run_t.dispTime_hours <0){
-						run_t.dispTime_hours=24;
-					}
+
+					run_t.dispTime_minute = run_t.dispTime_minute - 30;
+					run_t.dispTime_hours --;
+				  
 					
-					run_t.gTimer_key_5s=0;//run_t.gTimer_5s_start =1; //timer is 5s start be pressed key 
-				
-					
-					 run_t.temperature_flag =0;
+					 
 				 }
 				 else{ //setup temperature value 
                     
-					 run_t.temperature_flag =1;
+					 
 				    //setup temperature of value,minimum 20,maximum 40
 					 run_t.gTemperature --;
 					 if(run_t.gTemperature<20) run_t.gTemperature=40;
@@ -244,7 +240,7 @@ void SplitDispose_Key(uint8_t value)
 					
 					    run_t.gTimer_key_4s=0;
 				        run_t.gTimer_key_60s=0;
-						run_t.gTimer_set_temperature=0;
+						
 				 }
               
 				
@@ -252,29 +248,24 @@ void SplitDispose_Key(uint8_t value)
              
              }
            
-             
+           value = 0xff;   
+		   run_t.keyValue =0xff;
          break;
         
         case 0x10: //CIN2 ->ADD KEY
              if(run_t.gPower_On ==1){
 			 	  
-				if(run_t.gKeyTimer_mode==1){
+				if(run_t.gMode_flag==1){ //set up temperature value
                      run_t.gTimer_key_5s =0;
 				
-					 run_t.dispTime_hours++;
-				    if(run_t.dispTime_hours >24){
-						run_t.dispTime_hours=0;
-					}
-				
-					run_t.temperature_flag =0;
-					run_t.gTimer_key_5s =0;
+					// run_t.dispTime_hours++;
+				    run_t.dispTime_minute = run_t.dispTime_minute + 30;
+				    
 					
 					
-                    
-                    
-				 }
+                 }
 				 else{
-				      run_t.temperature_flag =1;
+				      
 					  //setup temperature minimum 20, maximum 40
 				     run_t.gTemperature ++;
                      if(run_t.gTemperature < 20)run_t.gTemperature= 20;
@@ -287,12 +278,13 @@ void SplitDispose_Key(uint8_t value)
 			
 				        run_t.gTimer_key_4s=0;
 						run_t.gTimer_key_60s=0;
-						run_t.gTimer_set_temperature=0;
+						
 					
 				 }
 
              }
-            
+            value = 0xff;
+			run_t.keyValue =0xff;
          break;
          //function to mainboard link single
          case 0x08: //Fan 
@@ -322,7 +314,7 @@ void SplitDispose_Key(uint8_t value)
 
 				}
 		
-				
+			 run_t.keyValue =0xff;	
          break;
          
          case 0x04: //CIN5  -> plasma ->STERILIZATION KEY 

@@ -46,6 +46,8 @@ typedef struct __RUN{
 
    uint8_t  gAi;
    uint8_t  gFan;
+   uint8_t  gMode_flag;
+   
    uint8_t  gFan_off_flag ;
   
    uint8_t  gTimes_minutes_temp;
@@ -73,8 +75,8 @@ typedef struct __RUN{
 
  
    
-   uint8_t gKeyTimer_mode;
-   uint8_t dispTime_minute;
+  
+  
    uint8_t Timer_mode_flag;
    uint8_t temperature_set_flag;
 
@@ -82,8 +84,8 @@ typedef struct __RUN{
 	
   
    
-   uint8_t  gTimer_disp_temp;
-   uint8_t  gTimer_set_temperature ;
+
+
    uint8_t  gTimer_1_hour_counter;
    uint8_t  gTimes_time_seconds;
 
@@ -92,6 +94,7 @@ typedef struct __RUN{
    uint8_t gReal_humtemp[2];
    uint8_t gInputCmd[2];
 
+	int8_t dispTime_minute;
 
     int8_t dispTime_hours;
     int8_t 	gTimes_hours_temp;

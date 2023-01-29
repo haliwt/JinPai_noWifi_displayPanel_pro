@@ -94,59 +94,75 @@ void DisplayTiming_KEY_Add_Subtract_Fun(void)
 
 	if(run_t.gPower_On==1){
     
-    if(run_t.gKeyTimer_mode==1){ // set uP timer of  timimg 
+    if(run_t.gMode_flag==1){ // set up timer of  timimg value
 		
-            run_t.Timer_mode_flag =1;
-			m = run_t.dispTime_hours /10%10;
-			n=	run_t.dispTime_hours %10;
-		
-	       TM1639_Write_4Bit_Time(0,0,m,n,1) ; // timer   mode  "H0: xx"
-		
-	 }
-	
-	//display set up time timing 		
-     if(run_t.gTimer_Cmd==1 &&  run_t.temperature_flag ==0 && run_t.temperature_set_flag !=1 && run_t.Timer_mode_flag ==0 ){
+            if(run_t.dispTime_minute > 59){
 
-                
-				m = run_t. dispTime_hours /10%10 ;
-			    n=	run_t. dispTime_hours %10; 
-	            if(run_t.dispTime_minute ==0 ){ 
-					p=0;
-					q=0;
+                 run_t.dispTime_hours ++;
+                 run_t.dispTime_minute=0;
 
-	            }
-				else{
-				   p = run_t. dispTime_minute /10 %10;
-				   q=  run_t. dispTime_minute %10;
+				 if(run_t.dispTime_hours > 23){
+					 
+					 if(run_t.dispTime_hours > 23){
+	                     p = 0;
+						 q = 0;
+					     m=0;
+						 n=0;
+
+					 }
+				 }
+				 else{
+					 p=run_t.dispTime_hours  /10%10;
+				     q=run_t.dispTime_hours  %10;
+				     m=0;
+					 n=0;
+				 }
+
+			}
+           else{
+
+            if(run_t.dispTime_minute < 0){
+                    
+				run_t.dispTime_minute=0;
+
+					if(run_t.dispTime_hours < 0){
+
+                         p = 2;
+						 q = 4;
+					     m=0;
+						 n=0;
+					}
+					else{
+						 p=run_t.dispTime_hours  /10%10;
+					     q=run_t.dispTime_hours  %10;
+					     m=0;
+						 n=0;
+
+
+					}
+
+
 				}
-			    TM1639_Write_4Bit_Time(m,n,p,q,0) ; //timer is default 12 hours "12:00"
+				else{
+					m = run_t.dispTime_minute  /10%10;
+					n=	run_t.dispTime_minute %10;
+				}
+            }
 
-	}
-	else{
-
-    if(run_t.gTimer_Cmd==0 &&  run_t.Timer_mode_flag !=1  && run_t.temperature_set_flag !=1){ //display normal times don't edit  timer of times 
-
-                       
-						m = run_t.gTimes_hours_temp /10 %10;
-					    n=	run_t.gTimes_hours_temp%10; 
-						p = run_t.gTimes_minutes_temp /10 %10;
-						q=  run_t.gTimes_minutes_temp %10;
-						TM1639_Write_4Bit_Time(m,n,p,q,0) ; //timer is default 12 hours "12:00"
-				
-	}
-    else if(run_t.Timer_mode_flag !=1 ||  run_t.temperature_set_flag  ==1){ //Temperature of setup auto shut off machine
-						
-						temp1 = run_t.gTemperature/10 %10;
-	                     temp2 = run_t.gTemperature%10;
-					    
-					TM1639_Write_4Bit_TemperatureData(temp1,temp2); //WT.EDIT 2022.09.01
-                    run_t.temperature_flag =0;
+			
+    	
+	       TM1639_Write_4Bit_Time(p,q,m,n,1) ; // timer   mode  "H0: xx"
+		
 	 }
-    }  
+	else{ //set up temperature value 
+
+
+
 	}
+
 }
 
-
+}
 void Display_GMT(void)
 { 
     static uint8_t m,n,p,q;
