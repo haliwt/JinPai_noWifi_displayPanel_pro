@@ -168,6 +168,7 @@ void SplitDispose_Key(uint8_t value)
     
           if(run_t.gPower_On == 0 || run_t.gPower_On == 0xff){
 			  	  run_t.gTimes_hours_temp=12;
+				  run_t.gTimes_time_seconds=0; //WT.EDIT 2023.01.29 add
 	              run_t.gPower_On=1;
 	          
 				  run_t.power_key =1;

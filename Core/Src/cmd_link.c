@@ -153,7 +153,7 @@ void SendData_Set_Temperature(uint8_t hdata)
 *******************************************************************************/
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-    uint8_t info;
+    
 	if(huart==&huart1) // Motor Board receive data (filter)
 	{
 		switch(state)

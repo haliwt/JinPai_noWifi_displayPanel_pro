@@ -63,10 +63,9 @@ typedef struct __RUN{
 
    uint8_t single_data;
    uint8_t fan_off_60s;
-   uint8_t wifi_receive_cmd_flag;
-   uint8_t wifi_turn_on;
-   uint8_t wifi_turn_off;
-   uint8_t wifi_connect_flag;
+
+ 
+  
 
  
    
@@ -76,13 +75,13 @@ typedef struct __RUN{
    uint8_t temperature_set_flag;
 
    uint8_t gTimer_1hour;
-   uint8_t test_flag;
 	
   
    
    uint8_t  gTimer_disp_temp;
    uint8_t  gTimer_set_temperature ;
    uint8_t  gTimer_1_hour_counter;
+   uint8_t  gTimes_time_seconds;
 
    
    

@@ -127,6 +127,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		 run_t.gTimer_key_5s++;
 	     run_t.gTimer_disp_temp++;
 		 run_t.gTimer_set_temperature++;
+		 run_t.gTimes_time_seconds ++;
 		 
 	    if(tm2>59){//60s ->1 minute 
 	      tm2=0;

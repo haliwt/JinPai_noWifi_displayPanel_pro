@@ -37,14 +37,14 @@ void Scan_KeyMode(void)
 	
 			    if(run_t.gPower_On == 1){
 			         SendData_PowerOff(1);
-					 run_t.test_flag ++;
+					
 			     }
 				else{
 					
 					SendData_PowerOff(0);
 					run_t.gFan_RunContinue=1; //WT.EDIT 2022.08.31
 					run_t.fan_off_60s = 0;
-					run_t.wifi_turn_on++; 
+					
 				}
 			
 			DisplaySMG_LED();
@@ -188,8 +188,6 @@ void RunReference_Fun(void)
 		      run_t.gTimer_setup_zero =0;
 		      run_t.gTimer_Counter=0;
 			  run_t.gTimer_1_hour_counter=0;
-			
-			 SendData_Set_Timer(run_t.dispTime_hours);
 			  
          }
 		 else{ //cancel definite time
@@ -211,7 +209,7 @@ void RunReference_Fun(void)
 	       run_t.temperature_set_flag =0; 
 		   run_t.gTemperature_timer_flag =1;
 		   run_t.Timer_mode_flag =0;
-		   SendData_Set_Temperature(run_t.gTemperature);
+		 
 	
     }
 
@@ -226,10 +224,7 @@ void RunReference_Fun(void)
          tim0 ++ ;
 		 run_t.gTimer_key_4s=0;
 
-	      //single_add_fun();//DisplayTiming_KEY_Add_Subtract_Fun();
-		
-         /// Display_DHT11_Value();
-          if(run_t.gTimer_Cmd ==1)DisplayTimer_Timing();
+         if(run_t.gTimer_Cmd ==1)DisplayTimer_Timing();
           else 
               single_add_fun();
 
@@ -356,7 +351,20 @@ static void Setup_Timer_Times(void)
 
 	  }
     }
-    
+    else{
+		      if(run_t.gTimes_time_seconds > 59){
+				run_t.gTimes_time_seconds=0;
+				run_t.gTimes_minutes_temp++;
+                if(run_t.gTimes_minutes_temp > 59){ //1 hour
+                    run_t.gTimes_minutes_temp=0;
+                    run_t.gTimes_hours_temp++;
+                   if(run_t.gTimes_hours_temp > 24){
+				    run_t.gTimes_hours_temp =0;
+				    }
+			   }
+               Display_GMT();
+		      }
+  }
 
 }
    
