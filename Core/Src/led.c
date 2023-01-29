@@ -93,6 +93,7 @@ void Panel_Led_OnOff_Function(void)
 	  if(run_t.gAi==0){
 		
 		  LED_AI_ON();
+		  run_t.gFan_off_flag=0;
 	  }
 	  else{
 	     LED_AI_OFF();
@@ -101,6 +102,7 @@ void Panel_Led_OnOff_Function(void)
 	 
 	  
     if(run_t.gDry==0){
+		 run_t.gFan_off_flag=0;
 	     DRY_LED_OnOff(0);
 
      }
@@ -110,6 +112,7 @@ void Panel_Led_OnOff_Function(void)
 	 }
 
 	 if(run_t.gPlasma==0){
+	 	 run_t.gFan_off_flag=0;
 	     STER_LED_OnOff(0);
 
      }
@@ -118,13 +121,14 @@ void Panel_Led_OnOff_Function(void)
 
 	 }
 
-	 if(run_t.gFan == 0){
+	 if(run_t.gFan == 0 &&  run_t.gFan_off_flag ==0){
          LED_FAN_ON();
 	 }
 	 else{
          LED_FAN_OFF();
 	 }
-	 
+
+	
 
 	
  

@@ -90,7 +90,7 @@ void Scan_KeyMode(void)
 	          single_add_fun();//DisplayTiming_KEY_Add_Subtract_Fun();
 			
 	}
-	 else if(FAN_KEY_VALUE()==KEY_DOWN){ //AI KEY 
+	 else if(FAN_KEY_VALUE()==KEY_DOWN){ //FAN 
 
 		 HAL_Delay(10);
 		 while(FAN_KEY_VALUE()==KEY_DOWN);
@@ -137,7 +137,7 @@ void Scan_KeyMode(void)
 
 		 
 	 }
-	 else if(AI_KEY_VALUE() ==KEY_DOWN){ //wifi KEY
+	 else if(AI_KEY_VALUE() ==KEY_DOWN){ //AI KEY
 		 HAL_Delay(10);
         while(AI_KEY_VALUE()==KEY_DOWN);
         
@@ -233,37 +233,28 @@ void RunReference_Fun(void)
 	}
 	 
    /*Temperature -> auto shut off machine be checked interval 60s */
+	 if(run_t.gAi ==0){
 	 if(run_t.gTemperature_timer_flag ==1 && run_t.gTimer_key_60s >59 ){
             run_t.gTimer_key_60s=0;
 		 
 		  
 		  if(run_t.gTemperature <=run_t.gReal_humtemp[1] || run_t.gReal_humtemp[1] >=40){//envirment temperature
 	  
-				  
-				   run_t.gAi = 1;
-			  
-				   run_t.gPlasma =1;
-				   run_t.gDry =1;
-				  
-				 //  AI_Auto_Stop();
-				//   sendAi_usart_fun(0x87);//SendData_AI(0X81); //turn off AI 
+				 
+			    sendAi_usart_fun(0x90);//SendData_AI(0X81); //turn off AI 
 		  }
 		  else if((run_t.gTemperature -3) >= run_t.gReal_humtemp[1] || 37 >= run_t.gReal_humtemp[1]){
 	  
-				//  run_t.gAi = 0;
-			   
-				// run_t.gPlasma =0;
-				// run_t.gDry =0;
-		  
-				 panel_led_fun();//Display_Function_OnOff();
+			
+		       panel_led_fun();//Display_Function_OnOff();
 	  
-				// sendAi_usart_fun(0x88);//SendData_AI(0X71); //turn on AI 
+			sendAi_usart_fun(0x91);//SendData_AI(0X71); //turn on AI 
 				 
 		  }
 	  
 	  }
 		
-
+	 }
      
 
 	

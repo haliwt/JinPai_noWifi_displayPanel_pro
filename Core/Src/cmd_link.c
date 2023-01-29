@@ -3,6 +3,7 @@
 #include "gpio.h"
 #include "run.h"
 #include "display.h"
+#include "led.h"
 
 volatile static uint8_t transOngoingFlag; //interrupt Transmit flag bit , 1---stop,0--run
 uint8_t outputBuf[8];
@@ -10,6 +11,7 @@ static uint8_t transferSize;
 static uint8_t state;
 uint8_t inputBuf[MAX_BUFFER_SIZE];
 
+static void Decode_Rx_Data(void);
 /**********************************************************************************************************
 **
 *Function Name:static void notifyStatusToHost(uint8_t lightNum,uint8_t filterNum,uint8_t unionNum)
@@ -23,10 +25,43 @@ void Decode_Function(void)
    if(run_t.decodeFlag ==1){
    
        run_t.decodeFlag =0;
-     
-       Display_DHT11_Value();
+
+   
+       Decode_Rx_Data();
+      // Display_DHT11_Value();
     }
 }
+
+static void Decode_Rx_Data(void)
+{
+   switch(run_t.single_data){
+
+    case SINGLE_DATA:
+
+	     Display_DHT11_Value();
+
+    break;
+
+
+	case MB_CMD:
+
+	   if(run_t.gInputCmd[0]==0x01){
+	   	   run_t.gFan_off_flag = 1;
+           LED_FAN_OFF();
+		  
+        }
+
+
+	break;
+
+
+
+
+   }
+
+
+}
+
 /****************************************************************************************************
 **
 *Function Name:static void selectLight(uint8_t index)
@@ -171,16 +206,12 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 				state=0; 
 			break;
 		case 2://#2
-			if(inputBuf[0]=='D' || inputBuf[0]=='W' || inputBuf[0]=='T' \
-				|| inputBuf[0]=='P' ||inputBuf[0] =='C' || inputBuf[0] == 'B') //'D'->data , 'W' ->wifi
+			if(inputBuf[0]=='D' || inputBuf[0] =='C' ) //'D'->data , 'W' ->wifi
 			{
 				state=3;
 				if(inputBuf[0]=='D') run_t.single_data=SINGLE_DATA; //receive data is single data
-                else if(inputBuf[0]=='W') run_t.single_data = WIFI_INFO; //wifi data
-			    else if(inputBuf[0]=='T') run_t.single_data = WIFI_TIME;
-                else if(inputBuf[0]=='P') run_t.single_data = WIFI_TEMP;
-				else if(inputBuf[0]=='C') run_t.single_data = WIFI_CMD;
-				else if(inputBuf[0]=='B') run_t.single_data = WIFI_BEIJING_TIME;
+				else if(inputBuf[0]=='C') run_t.single_data = MB_CMD;
+				
 			    
 			}
 			else
@@ -188,32 +219,32 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 			break;
             
         case 3:
-            if(run_t.single_data==SINGLE_DATA)
+            if(run_t.single_data==SINGLE_DATA){
+			   state = 4;     
               run_t.gReal_humtemp[0]=inputBuf[0]; //Humidity
-            else
-              run_t.gInputCmd[0]=inputBuf[0]; //Humidity
-              
-
-			  
-             state = 4;        
+            }
+            else if(run_t.single_data ==MB_CMD){
+              run_t.gInputCmd[0]=inputBuf[0]; // Fan of value is 0x01 ->tunr off fan
+              run_t.decodeFlag=1;
+			  state=0;
+            }
+			else
+				state=0;
+		       
             
         break;
         
 		case 4: //#3  if 'R' = hex:0x52
 
-		 if(run_t.single_data == WIFI_BEIJING_TIME){
-						 run_t.gTimes_minutes_temp = inputBuf[0];
-						 state =5;
-		 }
-		 else{
-		  if(run_t.single_data==SINGLE_DATA)
-               run_t.gReal_humtemp[1]=inputBuf[0]; //temperature value
-          else
-			   run_t.gInputCmd[1]=inputBuf[0];  //temperature
-			
+		  if(run_t.single_data==SINGLE_DATA){
+             run_t.gReal_humtemp[1]=inputBuf[0]; //temperature value
+         
 			run_t.decodeFlag=1;
 			state=0;
-		 }
+		  	}
+		    else
+				state = 0;
+		
 
 		 break;
            

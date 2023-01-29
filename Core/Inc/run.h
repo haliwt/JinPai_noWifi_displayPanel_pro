@@ -2,7 +2,10 @@
 #define __RUN_H_
 #include "main.h"
 
-enum Signal{SINGLE_DATA=1,WIFI_INFO,WIFI_TIME,WIFI_TEMP,WIFI_CMD,WIFI_BEIJING_TIME};
+enum Signal{
+   SINGLE_DATA=1,
+   MB_CMD
+};
 
 enum State{IDLE ,CODE, RUN};
 
@@ -43,6 +46,7 @@ typedef struct __RUN{
 
    uint8_t  gAi;
    uint8_t  gFan;
+   uint8_t  gFan_off_flag ;
   
    uint8_t  gTimes_minutes_temp;
    
