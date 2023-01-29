@@ -218,11 +218,23 @@ void SplitDispose_Key(uint8_t value)
              if(run_t.gPower_On ==1){
 			
 			 	if(run_t.gMode_flag==1){//times, is timer is 
-                    
 
-					run_t.dispTime_minute = run_t.dispTime_minute - 30;
-					run_t.dispTime_hours --;
-				  
+				    run_t.dispTime_minute = run_t.dispTime_minute - 30;
+
+				    if(run_t.dispTime_minute < 0){
+
+				    run_t.dispTime_hours --;
+					if(run_t.dispTime_hours < 0){
+						run_t.dispTime_hours=23;
+				        run_t.dispTime_minute =60;
+					   run_t.dispTime_minute = run_t.dispTime_minute - 30;
+					}
+					else{
+					  run_t.dispTime_minute =60;
+					  run_t.dispTime_minute = run_t.dispTime_minute - 30;
+					}
+					
+				    }
 					
 					 
 				 }
@@ -260,8 +272,22 @@ void SplitDispose_Key(uint8_t value)
 				
 					// run_t.dispTime_hours++;
 				    run_t.dispTime_minute = run_t.dispTime_minute + 30;
-				    
-					
+				    if(run_t.dispTime_minute > 59){
+
+		                 run_t.dispTime_hours ++;
+		                 run_t.dispTime_minute=0;
+
+						 if(run_t.dispTime_hours > 23){
+							 
+						      run_t.dispTime_hours=0;
+							    
+
+							 
+						 }
+						
+
+					}
+							
 					
                  }
 				 else{

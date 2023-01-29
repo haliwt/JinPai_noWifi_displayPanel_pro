@@ -96,59 +96,12 @@ void DisplayTiming_KEY_Add_Subtract_Fun(void)
     
     if(run_t.gMode_flag==1){ // set up timer of  timimg value
 		
-            if(run_t.dispTime_minute > 59){
-
-                 run_t.dispTime_hours ++;
-                 run_t.dispTime_minute=0;
-
-				 if(run_t.dispTime_hours > 23){
-					 
-					 if(run_t.dispTime_hours > 23){
-	                     p = 0;
-						 q = 0;
-					     m=0;
-						 n=0;
-
-					 }
-				 }
-				 else{
-					 p=run_t.dispTime_hours  /10%10;
-				     q=run_t.dispTime_hours  %10;
-				     m=0;
-					 n=0;
-				 }
-
-			}
-           else{
-
-            if(run_t.dispTime_minute < 0){
-                    
-				run_t.dispTime_minute=0;
-
-					if(run_t.dispTime_hours < 0){
-
-                         p = 2;
-						 q = 4;
-					     m=0;
-						 n=0;
-					}
-					else{
-						 p=run_t.dispTime_hours  /10%10;
-					     q=run_t.dispTime_hours  %10;
-					     m=0;
-						 n=0;
-
-
-					}
-
-
-				}
-				else{
-					m = run_t.dispTime_minute  /10%10;
-					n=	run_t.dispTime_minute %10;
-				}
-            }
-
+           
+			p=run_t.dispTime_hours  /10%10;
+		    q=run_t.dispTime_hours  %10;
+			m = run_t.dispTime_minute  /10%10;
+			n=	run_t.dispTime_minute %10;
+	
 			
     	
 	       TM1639_Write_4Bit_Time(p,q,m,n,1) ; // timer   mode  "H0: xx"

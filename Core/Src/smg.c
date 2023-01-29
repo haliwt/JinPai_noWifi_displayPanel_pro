@@ -3,7 +3,7 @@
 #include "led.h"
 
 
-#define DOUBLEDOT       seg_h
+#define DOUBLEDOT       0x08// seg_h
 
 #define POWER_KEYLED    (seg_g + seg_h)
 
@@ -36,6 +36,7 @@ uint8_t led_on_flag;
 uint8_t led_off_flag;
 uint8_t breath_flag=0;
 uint16_t Mode =0;
+
 const unsigned char segNumber[]={
 	
      
@@ -218,7 +219,7 @@ void TM1639_Write_4Bit_Time(uint8_t onebit,uint8_t twobit,uint8_t threebit,uint8
      if(sl ==0)
          TM1639_Write_OneByte(segNumber_High[onebit]);//display "1"
      else if(sl==1){
-        
+        TM1639_Write_OneByte(segNumber_High[onebit]);//display "1"
      }
      else if(sl==2){ //turn off SMG display
         TM1639_Write_OneByte(segNumber_High[onebit]);//display "1"//TM1639_Write_OneByte(OFFLED);//display "NULL"
@@ -227,33 +228,37 @@ void TM1639_Write_4Bit_Time(uint8_t onebit,uint8_t twobit,uint8_t threebit,uint8
 
 
      //dighital 2
+   
      TM1639_Start();
      TM1639_Write_OneByte(AddrC2H);//0xC1H->GRID_2->BIT_2
      if(sl==0){
-         TM1639_Write_OneByte(segNumber_Low[twobit]);//display "2 :"
+         TM1639_Write_OneByte(segNumber_Low[twobit]|0x10);//display "2 :"
          // TM1639_Write_OneByte(DOUBLEDOT);//display ":"
      }
      else if(sl ==1){
-          TM1639_Write_OneByte(segNumber_Low[twobit]);//display "2 :"//TM1639_Write_OneByte(segNumber_Low[0]|DOUBLEDOT);//display "0"  
+          TM1639_Write_OneByte(segNumber_Low[twobit]|0x10);//display "2 :"//TM1639_Write_OneByte(segNumber_Low[0]|DOUBLEDOT);//display "0"  
       }
      else if(sl==2){
-        TM1639_Write_OneByte(OFFLED);//display "NULL"
+        TM1639_Write_OneByte(segNumber_Low[twobit]|0x10);//TM1639_Write_OneByte(OFFLED);//display "NULL"
      }
      TM1639_Stop();
+   
 
-	 TM1639_Start();
+	TM1639_Start();
+
      TM1639_Write_OneByte(AddrC3H);//0xC1H->GRID_2->BIT_2
      if(sl==0){
-         TM1639_Write_OneByte(segNumber_High[twobit]);//display "2 :"
+         TM1639_Write_OneByte(segNumber_High[twobit]|0x10);//display "2 :"
    
      }
      else if(sl ==1){
-          TM1639_Write_OneByte(segNumber_High[twobit]);//display "0"  
+          TM1639_Write_OneByte(segNumber_High[twobit]|0x10);//display "0"  
       }
      else if(sl==2){
-        TM1639_Write_OneByte(OFFLED);//display "NULL"
+        TM1639_Write_OneByte(segNumber_High[twobit]|0x10);//TM1639_Write_OneByte(OFFLED);//display "NULL"
      }
      TM1639_Stop();
+
 
 
 
