@@ -99,9 +99,9 @@ void Scan_KeyMode(void)
 	    if(run_t.gPower_On==1){
 
 		    if(run_t.gFan ==0)
-	     	  sendAi_usart_fun(0x01);
+	     	  sendAi_usart_fun(0x08); //fan turn on
 	     	else
-			  sendAi_usart_fun(0x81);
+			  sendAi_usart_fun(0x18);
 			  
 	    }
      }
@@ -147,9 +147,9 @@ void Scan_KeyMode(void)
 	  if(run_t.gPower_On == 1){
 		  
 		if(run_t.gAi == 1)
-	          sendAi_usart_fun(0x18);//SendData_AI(0X18); //AI turn off 
+	          sendAi_usart_fun(0x11);//SendData_AI(0X18); //AI turn off 
 		 else 
-		 	  sendAi_usart_fun(0x08);//SendData_AI(0X08); //AI turn on
+		 	  sendAi_usart_fun(0x01);//SendData_AI(0X08); //AI turn on
 	    
 	  }
 	 }

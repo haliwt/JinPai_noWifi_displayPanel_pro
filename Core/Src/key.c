@@ -293,23 +293,28 @@ void SplitDispose_Key(uint8_t value)
              }
             
          break;
-         
+         //function to mainboard link single
          case 0x08: //Fan 
               if(run_t.gPower_On ==1){
                    
                 ai = ai ^ 0x01;
 				if(ai==1){
-					    if(run_t.gFan==0)
- 					       run_t.gFan =1; //turon off AI mode
+					    if(run_t.gFan==0){
+ 					       run_t.gFan =1; //tur off fan
+ 					       run_t.gAi =1;  //turn off Ai
+					    }
                         else
                             run_t.gFan =0;
  					
 				  }
 				  else{ //turn on AI mode
-				        if(run_t.gFan==1)
+				        if(run_t.gFan==1){
 						   run_t.gFan =0;
-                        else
+				        }
+                        else{
                             run_t.gFan =1;
+							run_t.gAi =1;  //turn off Ai
+                        }
 	               
 				}
 				    
@@ -329,7 +334,7 @@ void SplitDispose_Key(uint8_t value)
 				       run_t.gPlasma = 0;
                    else{
                        run_t.gPlasma = 1;
-					   
+					   run_t.gAi =1;  //turn off Ai
 					   
                    	}
 				   
@@ -339,6 +344,7 @@ void SplitDispose_Key(uint8_t value)
 				       run_t.gPlasma = 0;
                    else{
                        run_t.gPlasma = 1;
+					   run_t.gAi =1;  //turn off Ai
 					  
                    	}
 			   	}
@@ -365,7 +371,7 @@ void SplitDispose_Key(uint8_t value)
 				       run_t.gDry =0;
                    else{
                        run_t.gDry =1;
-					 
+					   run_t.gAi =1;  //turn off Ai
                    	}
 				  
 
@@ -376,6 +382,7 @@ void SplitDispose_Key(uint8_t value)
 				       run_t.gDry =0;
                    else{
                        run_t.gDry =1;
+					   run_t.gAi =1;  //turn off Ai
 					 
                    	}
                     
@@ -398,22 +405,32 @@ void SplitDispose_Key(uint8_t value)
                    
                 ai = ai ^ 0x01;
 				if(ai==1){
-					    if(run_t.gAi==0)
+					    if(run_t.gAi==0){
  					       run_t.gAi =1; //turon off AI mode
-                        else
+					    }
+                        else{
                             run_t.gAi =0;
+							run_t.gFan=0;
+						    run_t.gPlasma =0;
+							run_t.gDry=0;
+                        }
  					
 				  }
 				  else{ //turn on AI mode
-				        if(run_t.gAi==1)
-						   run_t.gAi =0;
+				        if(run_t.gAi==1){
+						    run_t.gAi =0;
+						    run_t.gFan=0;
+						    run_t.gPlasma =0;
+							run_t.gDry=0;
+						   
+				        }
                         else
                             run_t.gAi =1;
 	               
 				}
 				    
 
-				}
+			 }
 		
 				
          break;
