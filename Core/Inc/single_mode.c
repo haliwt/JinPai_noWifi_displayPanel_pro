@@ -128,10 +128,10 @@ void Scan_KeyMode(void)
 		run_t.keyValue= 0x02;
 		dispose_key(run_t.keyValue);//displaySmg_led_fun(run_t.keyValue);//Display_Smg_RunMode(run_t.keyValue );
         if(run_t.gDry ==1){
-            sendAi_usart_fun(0x12);//SendData_AI(0X12); //dry turn off
+            sendAi_usart_fun(0x12);//dry turn off
         }
 		else 
-		    sendAi_usart_fun(0x02);//SendData_AI(0X02); //dry tuNrn on
+		    sendAi_usart_fun(0x02); //dry tuNrn on
 	      
 	     
 
@@ -238,17 +238,18 @@ void RunReference_Fun(void)
             run_t.gTimer_key_60s=0;
 		 
 		  
-		  if(run_t.gTemperature <=run_t.gReal_humtemp[1] || run_t.gReal_humtemp[1] >=40){//envirment temperature
+		  if(run_t.gTemperature <= run_t.gReal_humtemp[1] || run_t.gReal_humtemp[1] >39){//envirment temperature
 	  
-				 
-			    sendAi_usart_fun(0x90);//SendData_AI(0X81); //turn off AI 
+				run_t.gDry = 1; 
+			    sendAi_usart_fun(0x12);//dry turn off;//turn off PTC "heat"
 		  }
-		  else if((run_t.gTemperature -3) >= run_t.gReal_humtemp[1] || 37 >= run_t.gReal_humtemp[1]){
+		  else if((run_t.gTemperature -3) >= run_t.gReal_humtemp[1] ||  run_t.gReal_humtemp[1] <=37){
 	  
 			
-		       panel_led_fun();//Display_Function_OnOff();
+		      panel_led_fun();//Display_Function_OnOff();
+		     run_t.gDry = 0;
 	  
-			sendAi_usart_fun(0x91);//SendData_AI(0X71); //turn on AI 
+			  sendAi_usart_fun(0x02); //dry turn on//turn on PTC "heat"
 				 
 		  }
 	  
