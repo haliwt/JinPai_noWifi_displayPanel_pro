@@ -103,11 +103,7 @@ void DisplayTiming_KEY_Add_Subtract_Fun(void)
 			n=	run_t.dispTime_minute %10;
 	
 			TM1639_Write_4Bit_Time(p,q,m,n,1) ; // timer   mode  "H0: xx"
-			if(p>0 || q>0){
-				run_t.gTimer_Cmd=1;
-			}
-			else
-				run_t.gTimer_Cmd=0;
+			
 			
             run_t.add_key_times =0;
 			run_t.dec_key_times =0;

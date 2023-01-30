@@ -343,7 +343,7 @@ void Single_RunCmd(void)
 
 
 	}
-	if(run_t.gTimer_key_4s > 4 && run_t.gMode_flag ==1){
+	if(run_t.gTimer_key_4s > 6  && run_t.gMode_flag ==1){
 		
 		if(run_t.dec_key_times ==0 && run_t.add_key_times==0){
              run_t.gMode_flag=0;
@@ -352,7 +352,14 @@ void Single_RunCmd(void)
 			m = run_t.dispTime_minute  /10%10;
 			n=	run_t.dispTime_minute %10;
 			 TM1639_Write_4Bit_Time(p,q,m,n,0) ; // timer   mode  "H0: xx"
+			 if(p>0 || q>0){
+				run_t.gTimer_Cmd=1;
+			}
+			else
+				run_t.gTimer_Cmd=0;
 		}
+		else
+			run_t.gTimer_key_4s=0;
 		
 
 	}
