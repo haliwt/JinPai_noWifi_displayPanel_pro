@@ -3,7 +3,7 @@
 #include "led.h"
 
 
-#define DOUBLEDOT       0x08// seg_h
+#define DOUBLEDOT       0x80// seg_h
 
 #define POWER_KEYLED    (seg_g + seg_h)
 
@@ -230,7 +230,7 @@ void TM1639_Write_4Bit_Time(uint8_t onebit,uint8_t twobit,uint8_t threebit,uint8
      TM1639_Start();
      TM1639_Write_OneByte(AddrC2H);//0xC1H->GRID_2->BIT_2
      if(sl==0){
-         TM1639_Write_OneByte(segNumber_Low[twobit]|0x10);//display "2 :"
+         TM1639_Write_OneByte(segNumber_Low[twobit]|0x80);//display "2 :"
      }
      else {
 	 	  
@@ -243,7 +243,7 @@ void TM1639_Write_4Bit_Time(uint8_t onebit,uint8_t twobit,uint8_t threebit,uint8
 
      TM1639_Write_OneByte(AddrC3H);//0xC1H->GRID_2->BIT_2
      if(sl==0){
-         TM1639_Write_OneByte(segNumber_High[twobit]|0x10);//display "2 :"
+         TM1639_Write_OneByte(segNumber_High[twobit]|0x80);//display "2 :"
    
      }
      else {
@@ -315,79 +315,7 @@ void TM1639_Write_4Bit_Time(uint8_t onebit,uint8_t twobit,uint8_t threebit,uint8
     *Return Ref: NO
     *
 ********************************************************************************************************/
-void TM1639_Write_4Bit_TemperatureData(uint8_t threebit,uint8_t fourbit)
-{
 
-	
-	 TM1639_STB_SetLow();
-	 TM1639_Write_OneByte(DisplayReg);//To write display register 0x40
-	 TM1639_STB_SetHigh();
-
-	 TM1639_Start();
-     TM1639_Write_OneByte(AddrFixed);//Add fixed reg
-     TM1639_Stop();
-
-
-	 //digital 1 ->
-    
-     TM1639_Start();
-     TM1639_Write_OneByte(AddrC0H);//0xC0H->GRID1->BIT_1
-     TM1639_Write_OneByte(T_Symbol_Low);//display "NULL"
-     
-     TM1639_Stop();
-    
-     TM1639_Start();
-     TM1639_Write_OneByte(AddrC1H);//0xC1H->GRID1->BIT_1
-     TM1639_Write_OneByte(T_Symbol_High);//display "NULL"
-     
-     TM1639_Stop();
-    
-
-    
-    //digital 2
-    TM1639_Start();
-    TM1639_Write_OneByte(AddrC2H);//0xC2H->GRID3->BIT_3
-     TM1639_Write_OneByte(E_Symbol_Low);//display ""
-    TM1639_Stop();
-    
-    //minute 
-    TM1639_Start();
-    TM1639_Write_OneByte(AddrC3H);//0xC2H->GRID3->BIT_3
-    TM1639_Write_OneByte(E_Symbol_High);//display ""
-    TM1639_Stop();
-
-	//digital 3 
-	 TM1639_Start();
-     TM1639_Write_OneByte(AddrC4H);//0xC2H->GRID3->BIT_3
-	 TM1639_Write_OneByte(segNumber_Low[threebit]);//display ""
-	 TM1639_Stop();
-		
-	 
-	TM1639_Start();
-	TM1639_Write_OneByte(AddrC5H);//0xC2H->GRID3->BIT_3
-	TM1639_Write_OneByte(segNumber_High[threebit]);//display ""
-	TM1639_Stop();
-
-
-
-	//digital 4
-
-    TM1639_Start();
-    TM1639_Write_OneByte(AddrC6H);//0xC2H->GRID3->BIT_3
-     TM1639_Write_OneByte(segNumber_Low[fourbit]);//display ""
-    TM1639_Stop();
-    
-   
-    TM1639_Start();
-    TM1639_Write_OneByte(AddrC7H);//0xC2H->GRID3->BIT_3
-    TM1639_Write_OneByte(segNumber_High[fourbit]);//display ""
-    TM1639_Stop();
-    //open diplay
-    TM1639_Start();
-    TM1639_Write_OneByte(OpenDispTM1639|0x8f);//0xC2H->GRID3->BIT_3
-    TM1639_Stop();
-    
-}
 
 /*******************************************************************************************************
     *
