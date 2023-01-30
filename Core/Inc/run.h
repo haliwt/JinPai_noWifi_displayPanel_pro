@@ -60,18 +60,19 @@ typedef struct __RUN{
 
   
    uint8_t gTimer_key_4s;
-   uint8_t gTimer_key_60s;
+  
    uint8_t gTimer_led_500ms;
 
    uint8_t single_data;
    uint8_t fan_off_60s;
+   uint8_t gTimer_key_60s;
 
    uint8_t Timer_mode_flag;
    uint8_t temperature_set_flag;
 
-   uint8_t gTimer_1hour;
+ 
 	
-   uint8_t  gTimer_1_hour_counter;
+ 
    uint8_t  gTimes_time_seconds;
 
    

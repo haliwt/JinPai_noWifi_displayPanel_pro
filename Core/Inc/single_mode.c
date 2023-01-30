@@ -176,7 +176,7 @@ void Scan_KeyMode(void)
 void RunReference_Fun(void)
 {
 
-    uint8_t tim0;
+   
     if(run_t.gPower_On ==1){
 	    panel_led_fun();
 
@@ -184,7 +184,7 @@ void RunReference_Fun(void)
 
 	
     /******************timer timing *****************************/
-    Setup_Timer_Times();
+   // Setup_Timer_Times();
 
 	
   
@@ -231,31 +231,17 @@ void RunReference_Fun(void)
 static void Setup_Timer_Times(void)
 {
     
-	static uint8_t minute_flag=0,tf_flag,send_times;
+	
 	if(run_t.gTimer_Cmd==1){
 		
         
-       if(run_t.gTimer_Counter > 0){
+       if(run_t.gTimer_Counter > 59){
 
 	    run_t.gTimer_Counter =0;
-		send_times ++ ;
-	   	
-         if( run_t.gTimer_1hour==1){ // 1 hour
-
-			run_t.gTimer_setup_zero=0;
-			run_t.gTimer_1hour=0;
-		    minute_flag=0;
-         }
-
-		if(run_t.gTimer_setup_zero==0){
-			run_t.gTimer_setup_zero++;
-			
-		    run_t.dispTime_hours -- ;
-		
-			run_t.dispTime_minute =59;
-
-		//    SendData_Timer_Hours((run_t.dispTime_hours +1));
-           
+		run_t.dispTime_minute -- ;
+	    if(run_t.dispTime_minute < 0){
+		     run_t.dispTime_hours -- ;
+			 run_t.dispTime_minute =59;
 
 			if(run_t.dispTime_hours < 0 ){
 
@@ -266,39 +252,20 @@ static void Setup_Timer_Times(void)
 
 			
 				run_t.gPower_On =0 ;
-				//sendData 
-			//	SendData_Timer_Hours(0xff);
-				
+			
 				SendData_PowerOff(0);//shut down 
-				//Power_Off();
-			}
+				
+		    
 
-			tf_flag = 1;
-
-		}
-
-
-		if(tf_flag==1){
-
-		   tf_flag++;
-		   
-		}
-		else{
-
-		 run_t.dispTime_minute=59 - minute_flag;
-		
-		}
-	  
-	   minute_flag++;
-	   if(send_times ==5){
-           send_times = 0;
-		   //send timer timing to smart phone APP
-
-
-	   }
+	        }
+			else
+			  Display_GMT();
+	   	
+	    }
 
 	  }
-    }
+
+	 }
     else{
 		      if(run_t.gTimes_time_seconds > 59){
 				run_t.gTimes_time_seconds=0;
@@ -375,7 +342,7 @@ void Single_RunCmd(void)
 
 
 			
-			 if(p>0 || q>0){
+			 if(p>0 || q>0 || m>0 || n>0){
 				run_t.gTimer_Cmd=1;
 			}
 			else
@@ -385,6 +352,7 @@ void Single_RunCmd(void)
 			run_t.gTimer_key_4s=0;
 		
        if(timing_flag > 3){
+	   	run_t.gTimer_Counter=0;
 	   	run_t.gMode_flag=0;
 		TM1639_Write_4Bit_Time(p,q,m,n,0) ;
        }
@@ -404,6 +372,8 @@ void Single_RunCmd(void)
        Display_DHT11_Value();
      
 	}
+
+	 Setup_Timer_Times();
 
     if(run_t.gPower_On ==0 || run_t.gPower_On == 0xff){
 	 	
