@@ -55,11 +55,11 @@ void Power_Off(void)
 			
 			
 				  run_t.gDht11_flag=0; //the first power on display "00"
-				  run_t.gTimes_hours_temp=12;
-				  run_t.gTimes_minutes_temp=0;
+				  run_t.dispTime_hours=12;
+
 			
 				  run_t.gMode_flag =0;
-				  run_t.gTimer_key_5s=0;
+				
 				  run_t.gTimer_key_4s=0;
 	              run_t.gTimer_key_60s=0;
 				  run_t.gTimer_fan_counter=0;
@@ -72,36 +72,19 @@ void Power_Off(void)
 		Breath_Led();
 		SMG_POWER_OFF()	;
 		
-	      //power off display fan run times 60s
-          if(run_t.gFan_RunContinue==1){
-
-		      if(run_t.fan_off_60s > 60){
-                run_t.gFan_RunContinue=0;
-                // LED_AI_OFF();
-              }
-			  else{
-
-			   // LED_AI_ON();
-							
-           }
-
-		 }
+	      
 }
 
 void DisplayTimer_Timing(void)
 {
       static uint8_t m,n,p,q;
-    
-    if(run_t.gTimer_Cmd==1 &&  run_t.gMode_flag !=1){
+      m = run_t.dispTime_hours /10 ;
+	  n=  run_t.dispTime_hours %10; 
+	  p = run_t.dispTime_minute /10;
+	  q=  run_t.dispTime_minute %10;
+	  TM1639_Write_4Bit_Time(m,n,p,q,0) ; //timer is default 12 hours "12:00"
 
-                
-				m = run_t. dispTime_hours /10 ;
-			    n=	run_t. dispTime_hours %10; 
-				p = run_t. dispTime_minute /10;
-				q=  run_t. dispTime_minute %10;
-			    TM1639_Write_4Bit_Time(m,n,p,q,0) ; //timer is default 12 hours "12:00"
-
-  }
+  
 }
 /*******************************************************************************
 	*
@@ -124,7 +107,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		run_t.gTimer_key_60s++;
 		run_t.fan_off_60s++;
 		
-		run_t.gTimer_key_5s++;
+	
 	    run_t.gTimes_time_seconds ++;
 		 
 	    if(tm2>59){//60s ->1 minute 

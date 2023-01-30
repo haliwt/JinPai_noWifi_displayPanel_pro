@@ -61,7 +61,7 @@ void Scan_KeyMode(void)
 			dispose_key(run_t.keyValue);//displaySmg_led_fun(run_t.keyValue);//Display_Smg_RunMode(run_t.keyValue );
 			single_add_fun();//DisplayTiming_KEY_Add_Subtract_Fun();
 			single_buzzer_fun();//SendData_Buzzer();
-		
+		    
 		  
      }
      else if(DEC_KEY_VALUE()==KEY_DOWN){ //"-" KEY
@@ -70,6 +70,8 @@ void Scan_KeyMode(void)
 	 	if(DEC_KEY_VALUE()==KEY_DOWN);
 			  
 	          run_t.keyValue= 0x20; //
+	          run_t.dec_key_times =1;
+		      run_t.gTimer_key_4s=0;
 	          dispose_key(run_t.keyValue);//Display_Smg_RunMode(run_t.keyValue );
 	        
 		      single_buzzer_fun();//SendData_Buzzer();
@@ -85,6 +87,8 @@ void Scan_KeyMode(void)
 		  if(ADD_KEY_VALUE()==KEY_DOWN);
 		  	 
 	     	  run_t.keyValue= 0x10;
+			  run_t.add_key_times =1;
+		      run_t.gTimer_key_4s=0;
 	          dispose_key(run_t.keyValue);//Display_Smg_RunMode(run_t.keyValue );
 		      single_buzzer_fun();//SendData_Buzzer();
 	          single_add_fun();//DisplayTiming_KEY_Add_Subtract_Fun();
@@ -175,62 +179,14 @@ void RunReference_Fun(void)
     if(run_t.gPower_On ==1){
 	    panel_led_fun();
 
-	 if(run_t.gTimer_key_5s >4 && run_t.gMode_flag ==1){	//timer timing set up 
-        run_t.gTimer_key_5s =0;
-	   // run_t.gMode_flag =0;
-	    run_t.Timer_mode_flag=0;
-		
-		
-	
-		 if(run_t.dispTime_hours >0){ //be sure definite time 
-		      run_t.gTimer_Cmd=1;	  //timer is times start  
-		      run_t.dispTime_minute =0;
-		      run_t.gTimer_setup_zero =0;
-		      run_t.gTimer_Counter=0;
-			  run_t.gTimer_1_hour_counter=0;
-			  
-         }
-		 else{ //cancel definite time
-		 	run_t.dispTime_hours=0;
-		    run_t.gTimer_Cmd=0;
-		    run_t.gTimer_setup_zero=0;
-			run_t.dispTime_minute=0;
-			run_t.gTimer_Counter=0;
-			// run_t.gTimes_minutes_temp=0;
-			
-			
-        }
-
-		
-	}
-    //set up temperature be done 
-//    if(run_t.gTimer_set_temperature > 4 && run_t.temperature_set_flag == 1){
-//          
-//	       run_t.temperature_set_flag =0; 
-//		   run_t.gTemperature_timer_flag =1;
-//		   run_t.Timer_mode_flag =0;
-//		 
-//	
-//    }
+	 
 
 	
     /******************timer timing *****************************/
     Setup_Timer_Times();
 
 	
-    /*-----------------display temperature and humidity------------------*/
-	if(run_t.gTimer_key_4s > 19 || tim0< 30){
-
-         tim0 ++ ;
-		 run_t.gTimer_key_4s=0;
-
-         if(run_t.gTimer_Cmd ==1)DisplayTimer_Timing();
-          else 
-              single_add_fun();
-
-		  if(tim0> 30 ) tim0 = 31;
-
-	}
+  
 	 
    /*Temperature -> auto shut off machine be checked interval 60s */
 	 if(run_t.gAi ==0){
@@ -345,12 +301,12 @@ static void Setup_Timer_Times(void)
     else{
 		      if(run_t.gTimes_time_seconds > 59){
 				run_t.gTimes_time_seconds=0;
-				run_t.gTimes_minutes_temp++;
-                if(run_t.gTimes_minutes_temp > 59){ //1 hour
+				run_t.gTimes_minutes_temp++; //1 minute 
+                if(run_t.dispTime_minute> 59){ //1 hour
                     run_t.gTimes_minutes_temp=0;
-                    run_t.gTimes_hours_temp++;
-                   if(run_t.gTimes_hours_temp > 24){
-				    run_t.gTimes_hours_temp =0;
+                    run_t.dispTime_hours++;
+                   if(run_t.dispTime_hours > 24){
+				    run_t.dispTime_hours =0;
 				    }
 			   }
                Display_GMT();
@@ -369,6 +325,9 @@ static void Setup_Timer_Times(void)
 ******************************************************************************/
 void Single_RunCmd(void)
 {
+
+  static uint8_t p,q,m,n;
+
    if(run_t.gPower_On ==1 ){
         Decode_Function();
 
@@ -382,6 +341,19 @@ void Single_RunCmd(void)
 
 		}	
 
+
+	}
+	if(run_t.gTimer_key_4s > 4 && run_t.gMode_flag ==1){
+		
+		if(run_t.dec_key_times ==0 && run_t.add_key_times==0){
+             run_t.gMode_flag=0;
+			p=run_t.dispTime_hours  /10%10;
+		    q=run_t.dispTime_hours  %10;
+			m = run_t.dispTime_minute  /10%10;
+			n=	run_t.dispTime_minute %10;
+			 TM1639_Write_4Bit_Time(p,q,m,n,0) ; // timer   mode  "H0: xx"
+		}
+		
 
 	}
 

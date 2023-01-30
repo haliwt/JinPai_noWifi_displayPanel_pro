@@ -38,6 +38,8 @@ typedef struct __RUN{
    uint8_t usart_flag;
    uint8_t decodeFlag;
    uint8_t gTemp_check;
+   uint8_t dec_key_times;
+   uint8_t add_key_times;
    
    uint8_t  gTimer_Cmd;
    uint8_t  gPlasma;
@@ -50,18 +52,10 @@ typedef struct __RUN{
    
    uint8_t  gFan_off_flag ;
   
-   uint8_t  gTimes_minutes_temp;
-   
-
-
- 
    uint8_t  dry_key;
-
-
-  
-
    uint8_t  gTimer_fan_counter;
-   uint8_t  gTimer_key_5s;
+   uint8_t gTimes_minutes_temp;
+
   
    uint8_t gTimer_key_4s;
    uint8_t gTimer_key_60s;
@@ -70,22 +64,11 @@ typedef struct __RUN{
    uint8_t single_data;
    uint8_t fan_off_60s;
 
- 
-  
-
- 
-   
-  
-  
    uint8_t Timer_mode_flag;
    uint8_t temperature_set_flag;
 
    uint8_t gTimer_1hour;
 	
-  
-   
-
-
    uint8_t  gTimer_1_hour_counter;
    uint8_t  gTimes_time_seconds;
 
@@ -97,7 +80,7 @@ typedef struct __RUN{
 	int8_t dispTime_minute;
 
     int8_t dispTime_hours;
-    int8_t 	gTimes_hours_temp;
+   
 
 
    

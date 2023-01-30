@@ -167,7 +167,7 @@ void SplitDispose_Key(uint8_t value)
        case 0x80: //Power On
     
           if(run_t.gPower_On == 0 || run_t.gPower_On == 0xff){
-			  	  run_t.gTimes_hours_temp=12;
+			  	  run_t.dispTime_hours=12;
 				  run_t.gTimes_time_seconds=0; //WT.EDIT 2023.01.29 add
 	              run_t.gPower_On=1;
 	          
@@ -250,7 +250,6 @@ void SplitDispose_Key(uint8_t value)
 			            else run_t.temperature_set_flag=0;
 						
 					
-					    run_t.gTimer_key_4s=0;
 				        run_t.gTimer_key_60s=0;
 						
 				 }
@@ -268,7 +267,7 @@ void SplitDispose_Key(uint8_t value)
              if(run_t.gPower_On ==1){
 			 	  
 				if(run_t.gMode_flag==1){ //set up temperature value
-                     run_t.gTimer_key_5s =0;
+                    
 				
 					// run_t.dispTime_hours++;
 				    run_t.dispTime_minute = run_t.dispTime_minute + 30;
@@ -302,7 +301,7 @@ void SplitDispose_Key(uint8_t value)
 			            else run_t.temperature_set_flag=0;
 
 			
-				        run_t.gTimer_key_4s=0;
+				  
 						run_t.gTimer_key_60s=0;
 						
 					

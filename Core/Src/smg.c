@@ -255,11 +255,11 @@ void TM1639_Write_4Bit_Time(uint8_t onebit,uint8_t twobit,uint8_t threebit,uint8
      TM1639_Stop();
 	 
      if(sl==1){
-	     if(run_t.gTimer_led_500ms < 51) blink_flag=1;
-		 else if(run_t.gTimer_led_500ms > 49 && run_t.gTimer_led_500ms < 101) blink_flag =0;
+	     if(run_t.gTimer_led_500ms < 21) blink_flag=1;
+		 else if(run_t.gTimer_led_500ms > 19 && run_t.gTimer_led_500ms < 41) blink_flag =0;
 		 else {
 	        run_t.gTimer_led_500ms =0;
-		
+		    blink_flag=1;
 		 }
      }
 	 

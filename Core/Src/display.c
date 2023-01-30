@@ -21,10 +21,10 @@ void DisplaySMG_LED(void)
 		SMG_POWER_ON()	;
 
 
-		m = (run_t.gTimes_hours_temp /10) ;
-		n=	(run_t.gTimes_hours_temp%10); 
-		p = (run_t.gTimes_minutes_temp /10);
-		q=  (run_t.gTimes_minutes_temp %10);
+		m = (run_t.dispTime_hours /10) ;
+		n=	(run_t.dispTime_hours%10); 
+		p = (run_t.dispTime_minute/10);
+		q=  (run_t.dispTime_minute%10);
 
 
 
@@ -103,24 +103,33 @@ void DisplayTiming_KEY_Add_Subtract_Fun(void)
 			n=	run_t.dispTime_minute %10;
 	
 			TM1639_Write_4Bit_Time(p,q,m,n,1) ; // timer   mode  "H0: xx"
+			if(p>0 || q>0){
+				run_t.gTimer_Cmd=1;
+			}
+			else
+				run_t.gTimer_Cmd=0;
+			
+            run_t.add_key_times =0;
+			run_t.dec_key_times =0;
+		
 		
 	 }
 	else{ //set up temperature value 
-
+        
 
 
 	}
+	
 
-}
-
-}
+    }
+ }
 void Display_GMT(void)
 { 
     static uint8_t m,n,p,q;
-	m = run_t.gTimes_hours_temp /10 %10;
-	n=	run_t.gTimes_hours_temp%10; 
-	p = run_t.gTimes_minutes_temp /10 %10;
-	q=  run_t.gTimes_minutes_temp %10;
+	m = run_t.dispTime_hours /10 %10;
+	n=	run_t.dispTime_hours%10; 
+	p = run_t.dispTime_minute/10 %10;
+	q=  run_t.dispTime_minute%10;
 	TM1639_Write_4Bit_Time(m,n,p,q,0) ; //timer is default 12 hours "12:00"
 
 
