@@ -355,8 +355,10 @@ void SplitDispose_Key(uint8_t value)
                plasma = plasma ^ 0x01;
 			   if(plasma ==1){  //turun off kill 
 			   	
-			       if(run_t.gPlasma ==1)
+			       if(run_t.gPlasma ==1){
 				       run_t.gPlasma = 0;
+					   run_t.gFan=0;   //WT.EDIT 2023.01.30
+			       	}
                    else{
                        run_t.gPlasma = 1;
 					   run_t.gAi =1;  //turn off Ai
@@ -365,8 +367,10 @@ void SplitDispose_Key(uint8_t value)
 				   
 		       }
 			   else{
-			   	  if(run_t.gPlasma ==1)
+			   	  if(run_t.gPlasma ==1){
 				       run_t.gPlasma = 0;
+					   run_t.gFan=0;   //WT.EDIT 2023.01.30
+			   	  	}
                    else{
                        run_t.gPlasma = 1;
 					   run_t.gAi =1;  //turn off Ai
@@ -393,8 +397,10 @@ void SplitDispose_Key(uint8_t value)
 		
 			    dry = dry^ 0x01;
 				if(dry==1){ //turn off the first be pressed 
-                   if(run_t.gDry== 1)
+                   if(run_t.gDry== 1){
 				       run_t.gDry =0;
+					   run_t.gFan=0;   //WT.EDIT 2023.01.30
+                   	}
                    else{
                        run_t.gDry =1;
 					   run_t.gAi =1;  //turn off Ai
@@ -404,8 +410,11 @@ void SplitDispose_Key(uint8_t value)
 				}
 				else{ //the second be pressed key
                     
-                   if(run_t.gDry== 1)
+                   if(run_t.gDry== 1){
 				       run_t.gDry =0;
+					   run_t.gFan=0;   //WT.EDIT 2023.01.30
+					   
+                   	}
                    else{
                        run_t.gDry =1;
 					   run_t.gAi =1;  //turn off Ai

@@ -331,9 +331,9 @@ void Single_RunCmd(void)
 		
 			 // timer   mode  "H0: xx"
 
-			if(run_t.gTimer_led_500ms < 21)
+			if(run_t.gTimer_led_500ms < 41)
 		                    TM1639_Write_4Bit_Time(p,q,m,n,0) ;
-		     else if(run_t.gTimer_led_500ms > 19 && run_t.gTimer_led_500ms < 41)
+		     else if(run_t.gTimer_led_500ms > 39 && run_t.gTimer_led_500ms < 81)
 			 	    TM1639_Write_4Bit_Time(p,q,m,n,1) ;
 			 else{
 			 	run_t.gTimer_led_500ms=0;
