@@ -269,11 +269,12 @@ static void Setup_Timer_Times(void)
 	}
     else{
 		      if(run_t.gTimes_time_seconds > 59){
+			  	
 				run_t.gTimes_time_seconds=0;
-				run_t.gTimes_minutes_temp++; //1 minute 
+				run_t.dispTime_minute++; //1 minute 
                 if(run_t.dispTime_minute> 59){ //1 hour
-                    run_t.gTimes_minutes_temp=0;
-                    run_t.dispTime_hours++;
+                   run_t.dispTime_minute=0;
+ 					run_t.dispTime_hours++;
                    if(run_t.dispTime_hours > 24){
 				    run_t.dispTime_hours =0;
 				    }

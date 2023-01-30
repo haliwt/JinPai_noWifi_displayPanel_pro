@@ -168,7 +168,8 @@ void SplitDispose_Key(uint8_t value)
     
           if(run_t.gPower_On == 0 || run_t.gPower_On == 0xff){
 			  	  run_t.dispTime_hours=12;
-				  run_t.gTimes_time_seconds=0; //WT.EDIT 2023.01.29 add
+			      run_t.dispTime_minute=0;
+		          run_t.gTimes_time_seconds=0;
 	              run_t.gPower_On=1;
 	          
 				  run_t.power_key =1;
@@ -189,6 +190,7 @@ void SplitDispose_Key(uint8_t value)
 			run_t.fan_off_60s =0;
 			run_t.temperature_set_flag =0;
 			run_t.gTimer_Cmd = 0;
+			run_t.gTimes_time_seconds=0;
             Smg_AllOff();
             }
        
@@ -318,7 +320,7 @@ void SplitDispose_Key(uint8_t value)
 			run_t.keyValue =0xff;
          break;
          //function to mainboard link single
-         case 0x08: //Fan 
+         case 0x08: //Fan KEY 
               if(run_t.gPower_On ==1){
                    
                 ai = ai ^ 0x01;
@@ -326,6 +328,7 @@ void SplitDispose_Key(uint8_t value)
 					    if(run_t.gFan==0){
  					       run_t.gFan =1; //tur off fan
  					       run_t.gAi =1;  //turn off Ai
+ 					       run_t.gDry=1; //tunr off gDry
 					    }
                         else
                             run_t.gFan =0;
@@ -338,6 +341,7 @@ void SplitDispose_Key(uint8_t value)
                         else{
                             run_t.gFan =1;
 							run_t.gAi =1;  //turn off Ai
+							run_t.gDry=1; //tunr off gDry
                         }
 	               
 				}
