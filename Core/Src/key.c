@@ -208,7 +208,7 @@ void SplitDispose_Key(uint8_t value)
 			   run_t.gMode_flag =0;
 			 
             }
-           
+           run_t.gTimer_key_4s=0;
 	     }
 		 value = 0xff;
 		 run_t.keyValue =0xff;

@@ -327,10 +327,13 @@ static void Setup_Timer_Times(void)
 void Single_RunCmd(void)
 {
 
+  static uint8_t timing_flag;
   static uint8_t p,q,m,n;
 
    if(run_t.gPower_On ==1 ){
+   	
         Decode_Function();
+	   timing_flag=0;
 
      }
 
@@ -348,15 +351,30 @@ void Single_RunCmd(void)
 	}
 
 	
-	if(run_t.gTimer_key_4s > 6  && run_t.gMode_flag ==1){
+  while(run_t.gTimer_key_4s > 6  && run_t.gMode_flag ==1){
 		
 		if(run_t.dec_key_times ==0 && run_t.add_key_times==0){
-             run_t.gMode_flag=0;
+             
 			p=run_t.dispTime_hours  /10%10;
 		    q=run_t.dispTime_hours  %10;
 			m = run_t.dispTime_minute  /10%10;
 			n=	run_t.dispTime_minute %10;
-			 TM1639_Write_4Bit_Time(p,q,m,n,0) ; // timer   mode  "H0: xx"
+
+		
+			 // timer   mode  "H0: xx"
+
+			if(run_t.gTimer_led_500ms < 21)
+		                    TM1639_Write_4Bit_Time(p,q,m,n,0) ;
+		     else if(run_t.gTimer_led_500ms > 19 && run_t.gTimer_led_500ms < 41)
+			 	    TM1639_Write_4Bit_Time(p,q,m,n,1) ;
+			 else{
+			 	run_t.gTimer_led_500ms=0;
+
+			     timing_flag ++;
+	 		 }
+
+
+			
 			 if(p>0 || q>0){
 				run_t.gTimer_Cmd=1;
 			}
@@ -366,7 +384,10 @@ void Single_RunCmd(void)
 		else
 			run_t.gTimer_key_4s=0;
 		
-
+       if(timing_flag > 3){
+	   	run_t.gMode_flag=0;
+		TM1639_Write_4Bit_Time(p,q,m,n,0) ;
+       }
 	}
 
 
@@ -377,6 +398,12 @@ void Single_RunCmd(void)
 
 
 	};
+
+	if(run_t.set_up_temp_flag==2){
+	   run_t.set_up_temp_flag++ ;
+       Display_DHT11_Value();
+     
+	}
 
     if(run_t.gPower_On ==0 || run_t.gPower_On == 0xff){
 	 	

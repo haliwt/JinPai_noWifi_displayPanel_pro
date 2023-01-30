@@ -37,8 +37,8 @@ static void Decode_Rx_Data(void)
    switch(run_t.single_data){
 
     case SINGLE_DATA:
-
-	     Display_DHT11_Value();
+       if(run_t.set_up_temp_flag !=1)
+	     	Display_DHT11_Value();
 
     break;
 
