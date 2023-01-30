@@ -523,7 +523,7 @@ void TM1639_Write_2bit_SetUp_TempData(uint8_t onebit,uint8_t twobit,uint8_t sel)
      if(sel==0)
          TM1639_Write_OneByte(segNumber_Low[onebit]);//display ""
      else{
-
+		TM1639_Write_OneByte(0);
 
 	 }
      TM1639_Stop();

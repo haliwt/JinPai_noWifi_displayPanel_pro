@@ -370,7 +370,7 @@ void Single_RunCmd(void)
 	}
 
 
-	while(run_t.set_up_temp_flag==1 && run_t.gTimer_key_4s > 6){
+	while(run_t.set_up_temp_flag==1 && run_t.gTimer_key_4s > 3){
 		 
          SetUp_Temperature_Value();
 		 if(run_t.gSet_up_times > 3)run_t.set_up_temp_flag++ ;
