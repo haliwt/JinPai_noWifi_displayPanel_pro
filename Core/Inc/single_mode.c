@@ -191,21 +191,23 @@ void RunReference_Fun(void)
 	 
    /*Temperature -> auto shut off machine be checked interval 60s */
 	 if(run_t.gAi ==0){
-	 if(run_t.gTemperature_timer_flag ==1 && run_t.gTimer_key_60s >59 ){
+	 if(run_t.temperature_set_flag ==1 && run_t.gTimer_key_60s >59 ){
             run_t.gTimer_key_60s=0;
 		 
 		  
 		  if(run_t.gTemperature <= run_t.gReal_humtemp[1] || run_t.gReal_humtemp[1] >39){//envirment temperature
 	  
-				run_t.gDry = 1; 
-			    sendAi_usart_fun(0x12);//dry turn off;//turn off PTC "heat"
+				run_t.gDry = 1;
+                              
+			    sendAi_usart_fun(0x91);//dry turn off;//turn off PTC "heat"
+                
 		  }
 		  else if((run_t.gTemperature -3) >= run_t.gReal_humtemp[1] ||  run_t.gReal_humtemp[1] <=37){
 	  
 			
 		     panel_led_fun();//Display_Function_OnOff();
 		     run_t.gDry = 0;
-	         sendAi_usart_fun(0x02); //dry turn on//turn on PTC "heat"
+	         sendAi_usart_fun(0x90); //dry turn on//turn on PTC "heat"
 				 
 		  }
 	  
@@ -252,7 +254,8 @@ static void Setup_Timer_Times(void)
 
 			
 				run_t.gPower_On =0 ;
-			
+			    run_t.gFan_RunContinue=1;
+				run_t.fan_off_60s = 0;
 				SendData_PowerOff(0);//shut down 
 				
 		     }

@@ -187,10 +187,13 @@ void SplitDispose_Key(uint8_t value)
 		    run_t.gFan_RunContinue=1;
             run_t.gPower_On=0;
 			run_t.fan_off_60s =0;
+			run_t.temperature_set_flag =0;
+			run_t.gTimer_Cmd = 0;
             Smg_AllOff();
             }
        
-         
+          value = 0xff;
+		 run_t.keyValue =0xff;
         
         break;
        
@@ -246,7 +249,7 @@ void SplitDispose_Key(uint8_t value)
 					 if(run_t.gTemperature<20) run_t.gTemperature=40;
 					
 					//  SetUp_Temperature_Value();
-					   if(run_t.gTemperature >20){
+					   if(run_t.gTemperature >=20){
 					   	    run_t.temperature_set_flag = 1;//run_t.gTemperature_timer_flag =1;
 					   	    run_t.set_up_temp_flag = 1;
 					   	}
@@ -298,11 +301,8 @@ void SplitDispose_Key(uint8_t value)
 				     run_t.gTemperature ++;
                      if(run_t.gTemperature < 20)run_t.gTemperature= 20;
 					 else if(run_t.gTemperature >40) run_t.gTemperature=20;
-					// SetUp_Temperature_Value();
-				
-                     
-                      
-				     if(run_t.gTemperature >20){
+					
+			         if(run_t.gTemperature >=20){
 					 	run_t.temperature_set_flag = 1;//run_t.gTemperature_timer_flag =1;
 					 	run_t.set_up_temp_flag = 1;
 				     }
@@ -345,7 +345,8 @@ void SplitDispose_Key(uint8_t value)
 
 				}
 		
-			 run_t.keyValue =0xff;	
+			 value = 0xff;
+		 run_t.keyValue =0xff;
          break;
          
          case 0x04: //CIN5  -> plasma ->STERILIZATION KEY 
@@ -383,7 +384,8 @@ void SplitDispose_Key(uint8_t value)
              
              }
             
-            
+             value = 0xff;
+		 run_t.keyValue =0xff;
          break;
          
          case 0x02: //CIN6  ->DRY KEY 
@@ -421,7 +423,8 @@ void SplitDispose_Key(uint8_t value)
 				 
                }
            
-             
+             value = 0xff;
+		 run_t.keyValue =0xff; 
          break;
 
 		  case 0x01: //CIN4 -> AI  KEY ->rat_control
@@ -456,14 +459,16 @@ void SplitDispose_Key(uint8_t value)
 
 			 }
 		
-				
+			 value = 0xff;
+		 run_t.keyValue =0xff;	
          break;
          
      
              
          default :
              
-         
+           value = 0xff;
+		  run_t.keyValue =0xff;
          break;
         
       }
