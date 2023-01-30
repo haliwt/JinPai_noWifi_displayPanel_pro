@@ -192,7 +192,8 @@ static void TM1639_Write_OneByte(uint8_t data)
 void TM1639_Write_4Bit_Time(uint8_t onebit,uint8_t twobit,uint8_t threebit,uint8_t fourbit,uint8_t sl)
 {
 
-     TM1639_STB_SetLow();
+	 static uint8_t blink_flag;
+	 TM1639_STB_SetLow();
 	 TM1639_Write_OneByte(0X40);//To Address of fixed reg 0x44
 	 TM1639_STB_SetHigh();
     
@@ -202,44 +203,39 @@ void TM1639_Write_4Bit_Time(uint8_t onebit,uint8_t twobit,uint8_t threebit,uint8
 
 	 
     //digital 1
-     TM1639_STB_SetLow();
+     TM1639_Start();
      TM1639_Write_OneByte(0xC0);//0xC0H->GRID_1->BIT_1
-     if(sl ==0)
-         TM1639_Write_OneByte(segNumber_Low[onebit]);//display "1"
+    if(sl ==0)
+         TM1639_Write_OneByte(segNumber_Low[onebit]);//display "10"
      else if(sl==1){
-         TM1639_Write_OneByte(segNumber_Low[onebit]);//display "1"
-     }
-     else if(sl==2){ //turn off SMG display
-        TM1639_Write_OneByte(segNumber_Low[onebit]);//display "NULL"
-     }
-     TM1639_STB_SetHigh();
+	 	    if(blink_flag ==1) TM1639_Write_OneByte(segNumber_Low[onebit]);//display "10"
+            else TM1639_Write_OneByte(0);//display "10"
+	 	  
+	 }
+     TM1639_Stop();
 
-	 TM1639_STB_SetLow();
+	 TM1639_Start();
      TM1639_Write_OneByte(0XC1);//0xC1H->GRID_1->BIT_1
      if(sl ==0)
-         TM1639_Write_OneByte(segNumber_High[onebit]);//display "1"
+         TM1639_Write_OneByte(segNumber_High[onebit]);//display "01"
      else if(sl==1){
-        TM1639_Write_OneByte(segNumber_High[onebit]);//display "1"
+	 	    if(blink_flag ==1)TM1639_Write_OneByte(segNumber_High[onebit]);//display "01"
+     	    else TM1639_Write_OneByte(0);//display "10"
      }
-     else if(sl==2){ //turn off SMG display
-        TM1639_Write_OneByte(segNumber_High[onebit]);//display "1"//TM1639_Write_OneByte(OFFLED);//display "NULL"
-     }
-     TM1639_STB_SetHigh();
-
-
+     TM1639_Stop();
+    
+      
      //dighital 2
    
      TM1639_Start();
      TM1639_Write_OneByte(AddrC2H);//0xC1H->GRID_2->BIT_2
      if(sl==0){
          TM1639_Write_OneByte(segNumber_Low[twobit]|0x10);//display "2 :"
-         // TM1639_Write_OneByte(DOUBLEDOT);//display ":"
      }
      else if(sl ==1){
-          TM1639_Write_OneByte(segNumber_Low[twobit]|0x10);//display "2 :"//TM1639_Write_OneByte(segNumber_Low[0]|DOUBLEDOT);//display "0"  
-      }
-     else if(sl==2){
-        TM1639_Write_OneByte(segNumber_Low[twobit]|0x10);//TM1639_Write_OneByte(OFFLED);//display "NULL"
+	 	  if(blink_flag ==1)
+            TM1639_Write_OneByte(segNumber_Low[twobit]|0x10);//display "2 :"//TM1639_Write_OneByte(segNumber_Low[0]|DOUBLEDOT);//display "0"  
+     	   else TM1639_Write_OneByte(0);
      }
      TM1639_Stop();
    
@@ -252,17 +248,23 @@ void TM1639_Write_4Bit_Time(uint8_t onebit,uint8_t twobit,uint8_t threebit,uint8
    
      }
      else if(sl ==1){
-          TM1639_Write_OneByte(segNumber_High[twobit]|0x10);//display "0"  
-      }
-     else if(sl==2){
-        TM1639_Write_OneByte(segNumber_High[twobit]|0x10);//TM1639_Write_OneByte(OFFLED);//display "NULL"
-     }
+        if(blink_flag==1)
+         TM1639_Write_OneByte(segNumber_High[twobit]|0x10);//TM1639_Write_OneByte(OFFLED);//display "NULL"
+        else TM1639_Write_OneByte(0);
+	 }
      TM1639_Stop();
-
-
-
-
-    //minute 
+	 
+     if(sl==1){
+	     if(run_t.gTimer_led_500ms < 51) blink_flag=1;
+		 else if(run_t.gTimer_led_500ms > 49 && run_t.gTimer_led_500ms < 101) blink_flag =0;
+		 else {
+	        run_t.gTimer_led_500ms =0;
+		
+		 }
+     }
+	 
+     //digital 3 
+     //minute 
     TM1639_Start();
     TM1639_Write_OneByte(AddrC4H);//0xC2H->GRID_3->BIT_3
     if(sl==2){//TM1639_Write_OneByte(OFFLED);//display "NULL"
@@ -282,7 +284,7 @@ void TM1639_Write_4Bit_Time(uint8_t onebit,uint8_t twobit,uint8_t threebit,uint8
     else TM1639_Write_OneByte(segNumber_High[threebit]);//display ""
     TM1639_Stop();
 	
-
+    //digital 4
 	//minute 
     TM1639_Start();
     TM1639_Write_OneByte(AddrC6H);//0xC2H->GRID_4

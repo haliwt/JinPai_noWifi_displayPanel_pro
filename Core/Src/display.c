@@ -102,9 +102,7 @@ void DisplayTiming_KEY_Add_Subtract_Fun(void)
 			m = run_t.dispTime_minute  /10%10;
 			n=	run_t.dispTime_minute %10;
 	
-			
-    	
-	       TM1639_Write_4Bit_Time(p,q,m,n,1) ; // timer   mode  "H0: xx"
+			TM1639_Write_4Bit_Time(p,q,m,n,1) ; // timer   mode  "H0: xx"
 		
 	 }
 	else{ //set up temperature value 
