@@ -184,7 +184,7 @@ void RunReference_Fun(void)
 
 	
     /******************timer timing *****************************/
-   // Setup_Timer_Times();
+    Setup_Timer_Times();
 
 	
   
@@ -255,17 +255,15 @@ static void Setup_Timer_Times(void)
 			
 				SendData_PowerOff(0);//shut down 
 				
-		    
+		     }
 
-	        }
-			else
-			  Display_GMT();
-	   	
-	    }
-
-	  }
-
-	 }
+	     }
+		
+			Display_GMT();
+	  
+	  
+	   }
+	}
     else{
 		      if(run_t.gTimes_time_seconds > 59){
 				run_t.gTimes_time_seconds=0;
@@ -302,7 +300,7 @@ void Single_RunCmd(void)
         Decode_Function();
 	   timing_flag=0;
 
-     }
+    }
 
    
    
@@ -373,7 +371,7 @@ void Single_RunCmd(void)
      
 	}
 
-	 Setup_Timer_Times();
+	// Setup_Timer_Times();
 
     if(run_t.gPower_On ==0 || run_t.gPower_On == 0xff){
 	 	
