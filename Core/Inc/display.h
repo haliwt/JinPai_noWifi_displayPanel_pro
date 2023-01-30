@@ -14,6 +14,7 @@ void Display_GMT(void);
 
 
 
+void SetUp_Temperature_Value(void);
 
 
 

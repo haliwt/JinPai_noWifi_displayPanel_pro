@@ -245,12 +245,12 @@ void SplitDispose_Key(uint8_t value)
 					 run_t.gTemperature --;
 					 if(run_t.gTemperature<20) run_t.gTemperature=40;
 					  
-					  
+					//  SetUp_Temperature_Value();
 					   if(run_t.gTemperature >20)run_t.temperature_set_flag = 1;//run_t.gTemperature_timer_flag =1;
 			            else run_t.temperature_set_flag=0;
 						
 					
-				        run_t.gTimer_key_60s=0;
+				        
 						
 				 }
               
@@ -281,8 +281,7 @@ void SplitDispose_Key(uint8_t value)
 						      run_t.dispTime_hours=0;
 							    
 
-							 
-						 }
+						}
 						
 
 					}
@@ -295,14 +294,12 @@ void SplitDispose_Key(uint8_t value)
 				     run_t.gTemperature ++;
                      if(run_t.gTemperature < 20)run_t.gTemperature= 20;
 					 else if(run_t.gTemperature >40) run_t.gTemperature=20;
+					// SetUp_Temperature_Value();
                      
                       
 				     if(run_t.gTemperature >20)run_t.temperature_set_flag = 1;//run_t.gTemperature_timer_flag =1;
-			            else run_t.temperature_set_flag=0;
-
-			
-				  
-						run_t.gTimer_key_60s=0;
+			         else run_t.temperature_set_flag=0;
+						
 						
 					
 				 }

@@ -110,11 +110,12 @@ void DisplayTiming_KEY_Add_Subtract_Fun(void)
 		
 		
 	 }
-	else{ //set up temperature value 
-        
+	 else{
+		SetUp_Temperature_Value();
 
 
-	}
+	 }
+	
 	
 
     }
@@ -129,6 +130,19 @@ void Display_GMT(void)
 	TM1639_Write_4Bit_Time(m,n,p,q,0) ; //timer is default 12 hours "12:00"
 
 
+}
+
+void SetUp_Temperature_Value(void)
+{
+    static uint8_t m,n;
+		m= (run_t.gTemperature /10) %10;
+        n =  run_t.gTemperature %10;
+	 if(run_t.gTimer_led_500ms < 21)
+          TM1639_Write_2bit_SetUp_TempData(m,n,0);
+     else if(run_t.gTimer_led_500ms > 19 && run_t.gTimer_led_500ms < 41)
+	 	   TM1639_Write_2bit_SetUp_TempData(m,n,1);
+	 else 
+	 	run_t.gTimer_led_500ms=0;
 }
 
 

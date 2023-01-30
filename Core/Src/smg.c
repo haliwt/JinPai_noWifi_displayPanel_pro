@@ -502,6 +502,73 @@ void TM1639_Write_2bit_TempData(uint8_t onebit,uint8_t twobit)
     
 }
 
+
+void TM1639_Write_2bit_SetUp_TempData(uint8_t onebit,uint8_t twobit,uint8_t sel)
+{
+
+	
+	 TM1639_STB_SetLow();
+	 TM1639_Write_OneByte(DisplayReg);//To write display register 0x40
+	 TM1639_STB_SetHigh();
+
+
+	 TM1639_Start();
+     TM1639_Write_OneByte(AddrFixed);//Add fixed reg
+     TM1639_Stop();
+
+	 
+	 //digital 1
+     TM1639_Start();
+     TM1639_Write_OneByte(AddrCCH);//0xC4H->GRID7->BIT_1
+     if(sel==0)
+         TM1639_Write_OneByte(segNumber_Low[onebit]);//display ""
+     else{
+
+
+	 }
+     TM1639_Stop();
+
+	 TM1639_Start();
+     TM1639_Write_OneByte(AddrCDH);//0xC4H->GRID7->BIT_1
+     if(sel==0)
+        TM1639_Write_OneByte(segNumber_High[onebit]);//display ""
+     else{
+		  TM1639_Write_OneByte(0);
+	 }
+     TM1639_Stop();
+
+
+     //digital 2
+	 TM1639_Start();
+     TM1639_Write_OneByte(AddrCEH);//0xC7H->GRID8->BIT_2
+     if(sel==0)
+     	TM1639_Write_OneByte(segNumber_Low[twobit]);//display ""
+     else{
+	     TM1639_Write_OneByte(0);
+
+
+	 }
+     TM1639_Stop();
+	 
+	 TM1639_Start();
+     TM1639_Write_OneByte(AddrCFH);//0xC7H->GRID8->BIT_2
+     if(sel==0)
+     	TM1639_Write_OneByte(segNumber_High[twobit]);//display ""
+     else{
+	    TM1639_Write_OneByte(0);
+
+	 }
+     TM1639_Stop();
+
+    
+    //open diplay
+    TM1639_Start();
+    TM1639_Write_OneByte(OpenDispTM1639|0x8f);//
+    TM1639_Stop();
+    
+}
+
+
 /***************************************************************************
     *
 *Function Name:void Smg_AllOff(void)
