@@ -55,6 +55,8 @@ typedef struct __RUN{
    uint8_t  dry_key;
    uint8_t  gTimer_fan_counter;
    uint8_t gTimes_minutes_temp;
+   uint8_t set_up_temp_flag;
+   uint8_t gSet_up_times;
 
   
    uint8_t gTimer_key_4s;

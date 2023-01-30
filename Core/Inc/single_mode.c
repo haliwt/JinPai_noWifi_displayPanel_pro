@@ -58,6 +58,7 @@ void Scan_KeyMode(void)
 	         while(MODE_KEY_VALUE()==KEY_DOWN);
 	 	  
 			run_t.keyValue= 0x40;
+			run_t.gTimer_led_500ms =0;
 			dispose_key(run_t.keyValue);//displaySmg_led_fun(run_t.keyValue);//Display_Smg_RunMode(run_t.keyValue );
 			single_add_fun();//DisplayTiming_KEY_Add_Subtract_Fun();
 			single_buzzer_fun();//SendData_Buzzer();
@@ -332,6 +333,8 @@ void Single_RunCmd(void)
         Decode_Function();
 
      }
+
+   
    
     if(run_t.gFan_RunContinue==1){
 		if(run_t.fan_off_60s > 59){
@@ -343,6 +346,8 @@ void Single_RunCmd(void)
 
 
 	}
+
+	
 	if(run_t.gTimer_key_4s > 6  && run_t.gMode_flag ==1){
 		
 		if(run_t.dec_key_times ==0 && run_t.add_key_times==0){
@@ -363,6 +368,15 @@ void Single_RunCmd(void)
 		
 
 	}
+
+
+	while(run_t.set_up_temp_flag==1 && run_t.gTimer_key_4s > 6){
+		 
+         SetUp_Temperature_Value();
+		 if(run_t.gSet_up_times > 3)run_t.set_up_temp_flag++ ;
+
+
+	};
 
     if(run_t.gPower_On ==0 || run_t.gPower_On == 0xff){
 	 	

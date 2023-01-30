@@ -111,10 +111,14 @@ void DisplayTiming_KEY_Add_Subtract_Fun(void)
 		
 	 }
 	 else{
-		SetUp_Temperature_Value();
 
+       
+		m= (run_t.gTemperature /10) %10;
+        n =  run_t.gTemperature %10;
+	    TM1639_Write_2bit_TempData(m,n);
 
 	 }
+	 
 	
 	
 
@@ -141,8 +145,10 @@ void SetUp_Temperature_Value(void)
           TM1639_Write_2bit_SetUp_TempData(m,n,0);
      else if(run_t.gTimer_led_500ms > 19 && run_t.gTimer_led_500ms < 41)
 	 	   TM1639_Write_2bit_SetUp_TempData(m,n,1);
-	 else 
+	 else{
 	 	run_t.gTimer_led_500ms=0;
+		run_t.gSet_up_times ++ ;
+	 }
 }
 
 

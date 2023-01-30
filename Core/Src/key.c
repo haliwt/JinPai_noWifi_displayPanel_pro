@@ -199,7 +199,7 @@ void SplitDispose_Key(uint8_t value)
 				
 			mode_flag = mode_flag ^ 0x01; //the same is "0",and differenct is "1"
 
-			if(mode_flag == 1){
+			if(run_t.gMode_flag  == 0){
                 
 				run_t.gMode_flag =1;
 		    }
@@ -235,7 +235,7 @@ void SplitDispose_Key(uint8_t value)
 					}
 					
 				    }
-					
+					run_t.gTimer_key_4s=0;
 					 
 				 }
 				 else{ //setup temperature value 
@@ -244,13 +244,17 @@ void SplitDispose_Key(uint8_t value)
 				    //setup temperature of value,minimum 20,maximum 40
 					 run_t.gTemperature --;
 					 if(run_t.gTemperature<20) run_t.gTemperature=40;
-					  
+					
 					//  SetUp_Temperature_Value();
-					   if(run_t.gTemperature >20)run_t.temperature_set_flag = 1;//run_t.gTemperature_timer_flag =1;
+					   if(run_t.gTemperature >20){
+					   	    run_t.temperature_set_flag = 1;//run_t.gTemperature_timer_flag =1;
+					   	    run_t.set_up_temp_flag = 1;
+					   	}
 			            else run_t.temperature_set_flag=0;
 						
 					
-				        
+				     run_t.gTimer_key_4s=0;
+					 run_t.gSet_up_times =0;
 						
 				 }
               
@@ -285,7 +289,7 @@ void SplitDispose_Key(uint8_t value)
 						
 
 					}
-							
+					run_t.gTimer_key_4s=0;		
 					
                  }
 				 else{
@@ -295,12 +299,17 @@ void SplitDispose_Key(uint8_t value)
                      if(run_t.gTemperature < 20)run_t.gTemperature= 20;
 					 else if(run_t.gTemperature >40) run_t.gTemperature=20;
 					// SetUp_Temperature_Value();
+				
                      
                       
-				     if(run_t.gTemperature >20)run_t.temperature_set_flag = 1;//run_t.gTemperature_timer_flag =1;
+				     if(run_t.gTemperature >20){
+					 	run_t.temperature_set_flag = 1;//run_t.gTemperature_timer_flag =1;
+					 	run_t.set_up_temp_flag = 1;
+				     }
 			         else run_t.temperature_set_flag=0;
-						
-						
+					 
+					run_t.gTimer_key_4s=0;
+					run_t.gSet_up_times =0;
 					
 				 }
 
